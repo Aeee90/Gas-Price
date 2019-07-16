@@ -1,8 +1,11 @@
-package aeee.api.gasprice.api;
+package aeee.api.gasprice.infura;
 
 import aeee.api.gasprice.web.api.InfuraAPI;
+import aeee.api.gasprice.web.service.GasPriceService;
+import aeee.api.gasprice.web.vo.entity.GasPriceVO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,6 +24,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 
 
+@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class InfuraApi {
@@ -49,7 +53,7 @@ public class InfuraApi {
         json.put("params", params);
         json.put("id", 1);
 
-        System.out.println(json.toString());
+        log.info(json.toString());
 
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
 
@@ -58,7 +62,7 @@ public class InfuraApi {
 
         JsonNode root = objectMapper.readTree(responseEntity);
 
-        System.out.println(root);
+        log.info(root.toString());
     }
 
     @Autowired
@@ -66,8 +70,15 @@ public class InfuraApi {
 
     @Test
     public void getGasPriceServiceString(){
-        String gasPriceLatest = infuraAPI.getLatestTransactionString();
-        System.out.println(gasPriceLatest);
+        String gasPriceLatest = infuraAPI.getLatestTransaction(String.class);
+        log.info(gasPriceLatest);
         assert(gasPriceLatest != null && !gasPriceLatest.isEmpty());
+    }
+
+    @Test
+    public void getGasPriceServiceVO(){
+        GasPriceVO gasPriceLatest = infuraAPI.getLatestTransaction(GasPriceVO.class);
+        assert(gasPriceLatest != null);
+        log.info(gasPriceLatest.toString());
     }
 }

@@ -5,10 +5,7 @@ import org.hibernate.validator.internal.constraintvalidators.hv.URLValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.lang.Nullable;
 import org.springframework.web.client.HttpMessageConverterExtractor;
 import org.springframework.web.client.RequestCallback;
@@ -57,8 +54,8 @@ abstract class HttpSender {
         return new HttpEntity<>(data, generateHttpHeader.generateHttpHeaders(newHeaders));
     }
 
-    protected  <T> T postForObject(@Nullable Object request, Class<T> clazz) throws RestClientException {
-        return new RestTemplate().postForObject(URL, request, clazz);
+    protected  <T> T post(@Nullable Object request, Class<T> clazz) {
+        return new RestTemplate().postForEntity(URL, request, clazz).getBody();
     }
 
     protected interface GenerateHttpHeader {

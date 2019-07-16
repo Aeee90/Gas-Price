@@ -1,20 +1,16 @@
 package aeee.api.gasprice.web.api;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResponseErrorHandler;
 
 import java.io.IOException;
-import java.net.URI;
 
 @Slf4j
 @Component
@@ -30,8 +26,7 @@ public class InfuraAPI extends HttpSender implements ResponseErrorHandler {
         return headers;
     }
 
-    public String getLatestTransactionString() {
-
+    public <T> T getLatestTransaction(Class<T> clazz){
         JSONObject json= new JSONObject();
         json.put("jsonrpc", "2.0");
         json.put("method", "eth_getBlockByNumber");
@@ -41,9 +36,9 @@ public class InfuraAPI extends HttpSender implements ResponseErrorHandler {
         json.put("params", params);
         json.put("id", 1);
 
-        HttpEntity<String> request = getHttpEntity(json.toString());
+        HttpEntity httpEntity = getHttpEntity(json.toString());
 
-        return postForObject(request, String.class);
+        return post(httpEntity, clazz);
     }
 
 
