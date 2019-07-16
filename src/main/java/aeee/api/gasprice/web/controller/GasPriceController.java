@@ -26,9 +26,4 @@ public class GasPriceController extends FilterController {
     public ResponseDTO<GasPriceVO> getLatestTransaction(){
         return ResponseDTO.get(ResponseType.Success, "", gasPriceService.getLatestTransactionVO());
     }
-
-    @GetMapping("gasprice")
-    public ResponseDTO<GasPriceVO> gasprice(){
-        return ResponseDTO.get(ResponseType.Success, "", new GasPriceVO());
-    }
 }
