@@ -8,4 +8,5 @@ public class TestDto implements Serializable {
 
     @Getter
     private String hello = "World";
+
 }

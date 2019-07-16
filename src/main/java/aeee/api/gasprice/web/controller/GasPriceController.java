@@ -18,12 +18,17 @@ public class GasPriceController extends FilterController {
     private GasPriceService gasPriceService;
 
     @GetMapping("/hello")
-    public TestDto hello(){
-        return new TestDto();
+    public ResponseDTO<TestDto> hello(){
+        return ResponseDTO.get(ResponseType.Success, "", new TestDto());
     }
 
     @GetMapping("")
     public ResponseDTO<GasPriceVO> getLatestTransaction(){
         return ResponseDTO.get(ResponseType.Success, "", gasPriceService.getLatestTransactionVO());
+    }
+
+    @GetMapping("gasprice")
+    public ResponseDTO<GasPriceVO> gasprice(){
+        return ResponseDTO.get(ResponseType.Success, "", new GasPriceVO());
     }
 }

@@ -1,33 +1,32 @@
 package aeee.api.gasprice.web.vo.dto;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import java.io.Serializable;
 
 public class ResponseDTO<T> implements Serializable {
 
-    public static ResponseDTO get(ResponseType type){ return new ResponseDTO(type.status); }
-    public static ResponseDTO get(ResponseType type, String messege){ return new ResponseDTO(type.status, messege); }
-    public static <R> ResponseDTO get(ResponseType type, String messege, R data){ return new ResponseDTO<>(type.status, messege, data); }
+    public static <R> ResponseDTO<R> get(ResponseType type){ return new ResponseDTO<>(type.status); }
+    public static <R> ResponseDTO<R> get(ResponseType type, String message){ return new ResponseDTO<>(type.status, message); }
+    public static <R> ResponseDTO<R> get(ResponseType type, String message, R data){ return new ResponseDTO<>(type.status, message, data); }
 
     @Getter
     private int status;
     @Getter
-    private String messege;
+    private String message;
     @Getter
     private T data;
 
     private ResponseDTO(int status){
         this.status = status;
     }
-    private ResponseDTO(int status, String messege){
+    private ResponseDTO(int status, String message){
         this(status);
-        this.messege =messege;
+        this.message =message;
     }
 
-    public ResponseDTO(int status, String messege, T data){
-        this(status, messege);
+    private ResponseDTO(int status, String message, T data){
+        this(status, message);
         this.data = data;
     }
 }

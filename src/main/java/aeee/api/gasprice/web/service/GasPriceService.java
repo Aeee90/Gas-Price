@@ -2,6 +2,7 @@ package aeee.api.gasprice.web.service;
 
 import aeee.api.gasprice.web.api.InfuraAPI;
 import aeee.api.gasprice.web.vo.entity.GasPriceVO;
+import aeee.api.gasprice.web.vo.entity.GasPriceVODeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -22,7 +23,7 @@ public class GasPriceService {
 
     public GasPriceService() {
         SimpleModule simpleModule = new SimpleModule();
-        simpleModule.addDeserializer(GasPriceVO.class, new GasPriceVO());
+        simpleModule.addDeserializer(GasPriceVO.class, new GasPriceVODeserializer());
         mapper.registerModule(simpleModule);
     }
 
@@ -37,7 +38,6 @@ public class GasPriceService {
     }
 
     public GasPriceVO getLatestTransactionVO(){
-
         String str = infuraAPI.getLatestTransaction(String.class);
         try {
             return mapper.readValue(str, GasPriceVO.class);
