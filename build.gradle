@@ -1,0 +1,36 @@
+plugins {
+	id 'org.springframework.boot' version '2.1.6.RELEASE'
+	id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'aeee.api'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webflux', version: '2.1.6.RELEASE'
+	
+	//Lombok
+	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.8'
+	annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.8'
+	
+	//JSON
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.9'
+	compile group: 'org.json', name: 'json', version: '20180813'
+	
+	testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.1.6.RELEASE'
+	testImplementation group: 'io.projectreactor', name: 'reactor-test', version: '3.2.10.RELEASE'
+
+}
