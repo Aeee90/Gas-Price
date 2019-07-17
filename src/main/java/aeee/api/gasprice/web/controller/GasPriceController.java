@@ -21,7 +21,7 @@ public class GasPriceController extends FilterController {
 
     @GetMapping("")
     public ResponseDTO<BlockInfoDTO> getBlockInfo(){
-        return ResponseDTO.get(ResponseType.Success, "", gasPriceService.purifyGasPrice());
+        return ResponseDTO.get(ResponseType.Success, "", gasPriceService.manufactureGasPrice());
     }
 
     @GetMapping("/latest")

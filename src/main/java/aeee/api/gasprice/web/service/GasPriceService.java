@@ -51,7 +51,7 @@ public class GasPriceService {
         }
     }
 
-    public BlockInfoDTO purifyGasPrice(){
+    public BlockInfoDTO manufactureGasPrice(){
         GasPriceVO gasPriceVO = getLatestTransactionVO();
         ResultVO resultVO = gasPriceVO.getResult();
         List<TransactionVO> transactionVOS = gasPriceVO.getResult().getTransactions();

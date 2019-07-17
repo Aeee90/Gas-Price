@@ -34,7 +34,7 @@ public class InfuraService {
 
     @Test
     public void getBlockInfo(){
-        BlockInfoDTO blockInfoDTO = gasPriceService.purifyGasPrice();
+        BlockInfoDTO blockInfoDTO = gasPriceService.manufactureGasPrice();
         assert(blockInfoDTO != null);
         log.info(blockInfoDTO.toString());
     }
@@ -45,7 +45,7 @@ public class InfuraService {
         long sum = 0;
         for(int i =0; i<run; i++){
             sum  += SpeedTime.measure("Api", o->{
-                gasPriceService.purifyGasPrice();
+                gasPriceService.manufactureGasPrice();
                 return null;
             });
         }
