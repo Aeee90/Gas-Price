@@ -2,6 +2,8 @@ package aeee.api.gasprice.web.api;
 
 import aeee.api.gasprice.define.InfuraMethod;
 import aeee.api.gasprice.exception.ServerException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,6 +19,8 @@ import java.io.IOException;
 @Slf4j
 @Component
 public class InfuraAPI extends HttpSender {
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public InfuraAPI(){
         super("infura.api.url");
@@ -84,10 +88,34 @@ public class InfuraAPI extends HttpSender {
         return post(httpEntity, clazz);
     }
 
-    public <T> T getEth_getBlockByNumber(Class<T> clazz){
+    public JsonNode getEth_getBlockByNumber(){
         JSONArray params = new JSONArray();
         params.put("latest");
         params.put(true);
-        return request(clazz, InfuraMethod.eth_getBlockByNumber, params);
+
+        return checkError(request(String.class, InfuraMethod.eth_getBlockByNumber, params));
+    }
+
+    private JsonNode checkError(String str){
+        JsonNode data;
+        try {
+            data =  objectMapper.readTree(str);
+        }catch (IOException e){
+            log.error("Can't Convert String To JsonNoe: {}", str);
+            throw new ServerException();
+        }
+
+        if(data == null){
+            log.error("JsonNode is NUll, Can't Convert String To JsonNoe: {}", str);
+            throw new ServerException();
+        }else{
+            JsonNode error = data.get("error");
+            if(error != null) {
+                log.error("API is Error(Code: {}, Message: {})", error.get("code"), error.get("message"));
+                throw new ServerException();
+            }
+        }
+
+        return data;
     }
 }

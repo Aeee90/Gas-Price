@@ -1,6 +1,7 @@
 package aeee.api.gasprice.web.service;
 
 import aeee.api.gasprice.define.Unit;
+import aeee.api.gasprice.exception.ServerException;
 import aeee.api.gasprice.util.UnitConvertor;
 import aeee.api.gasprice.web.api.InfuraAPI;
 import aeee.api.gasprice.web.vo.dto.BlockInfoDTO;
@@ -40,23 +41,13 @@ public class GasPriceService {
         mapper.registerModule(simpleModule);
     }
 
-    public JsonNode getLatestTransactionJson(){
-        String str = infuraAPI.getEth_getBlockByNumber(String.class);
-        try {
-            return mapper.readTree(str);
-        }catch (IOException e){
-            log.error("Can't Convert String To JsonNoe: {}", str);
-            return null;
-        }
-    }
-
     public GasPriceVO getLatestTransactionVO(){
-        String str = infuraAPI.getEth_getBlockByNumber(String.class);
+        JsonNode data = infuraAPI.getEth_getBlockByNumber();
         try {
-            return mapper.readValue(str, GasPriceVO.class);
+            return mapper.treeToValue(data, GasPriceVO.class);
         }catch (IOException e){
-            log.error("Can't Convert String To JsonNoe: {}", str);
-            return null;
+            log.error("Can't Convert JsonNode To GasPriceVO: {}", data);
+            throw new ServerException();
         }
     }
 

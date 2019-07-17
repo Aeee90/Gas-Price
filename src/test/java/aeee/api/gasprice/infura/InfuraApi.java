@@ -61,6 +61,7 @@ public class InfuraApi {
             String responseEntity = restTemplate.postForObject(URL, request, String.class);
             try{
                 JsonNode root = objectMapper.readTree(responseEntity);
+                log.info(root.toString());
             }catch (IOException e){
 
             }
@@ -73,9 +74,9 @@ public class InfuraApi {
 
     @Test
     public void getGasPriceServiceString(){
-        String gasPriceLatest = infuraAPI.getEth_getBlockByNumber(String.class);
-        log.info(gasPriceLatest);
-        assert(gasPriceLatest != null && !gasPriceLatest.isEmpty());
+        JsonNode gasPriceLatest = infuraAPI.getEth_getBlockByNumber();
+        assert(gasPriceLatest != null);
+        log.info(gasPriceLatest.toString());
     }
 
     @Test
@@ -84,7 +85,7 @@ public class InfuraApi {
         long sum = 0;
         for(int i =0; i<run; i++){
             sum  += SpeedTime.measure("Api", o->{
-                infuraAPI.getEth_getBlockByNumber(String.class);
+                infuraAPI.getEth_getBlockByNumber();
                 return null;
             });
         }
