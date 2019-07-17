@@ -1,8 +1,6 @@
 package aeee.api.gasprice.infura;
 
 import aeee.api.gasprice.web.api.InfuraAPI;
-import aeee.api.gasprice.web.service.GasPriceService;
-import aeee.api.gasprice.web.vo.entity.GasPriceVO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;

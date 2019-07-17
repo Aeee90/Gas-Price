@@ -22,7 +22,6 @@ import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -83,8 +82,8 @@ public class GasPriceService {
                 TransactionVO tr = transactionVOS.get(i);
                 BigDecimal gp = tr.getGasPrice();
                 sum = sum.add(gp);
-                if(gp.compareTo(max) > 1) max = gp;
-                if(gp.compareTo(min) < -1) min = gp;
+                if(gp.compareTo(max) > 0) max = gp;
+                if(gp.compareTo(min) < 0) min = gp;
 
                 BigDecimal cgp = UnitConvertor.convertUnitWithRoundHalf(gp, Unit.WEI, Unit.GIGA, 1);
                 Long count = counter.get(cgp);
@@ -93,7 +92,7 @@ public class GasPriceService {
 
             blockInfoDTO.setTransactionCountor(counter.entrySet().stream()
                 .map( entry->  new TransactionCountDTO(entry.getKey(), entry.getValue()) )
-                .sorted((TransactionCountDTO a, TransactionCountDTO b)-> a.getGasPrice().compareTo(b.getGasPrice()) )
+                .sorted(TransactionCountDTO.ComparatorAsc)
                 .collect(Collectors.toList())
             );
         }

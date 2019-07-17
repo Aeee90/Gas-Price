@@ -7,20 +7,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.*;
 import org.springframework.lang.Nullable;
-import org.springframework.web.client.HttpMessageConverterExtractor;
-import org.springframework.web.client.RequestCallback;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.*;
 
 import javax.annotation.PostConstruct;
 
 @Slf4j
-abstract class HttpSender {
+abstract class HttpSender implements ResponseErrorHandler {
 
     @Autowired
     private Environment environment;
 
-    private String URL;
+    protected String URL;
     private final String _urlKey;
     private HttpHeaders headers = new HttpHeaders();
 
@@ -61,6 +58,5 @@ abstract class HttpSender {
     protected interface GenerateHttpHeader {
         HttpHeaders generateHttpHeaders(HttpHeaders headers);
     }
-
 
 }
