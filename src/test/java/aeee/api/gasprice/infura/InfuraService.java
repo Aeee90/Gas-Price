@@ -1,7 +1,9 @@
 package aeee.api.gasprice.infura;
 
+import aeee.api.gasprice.SpeedTime;
 import aeee.api.gasprice.util.UnitConvertor;
 import aeee.api.gasprice.web.service.GasPriceService;
+import aeee.api.gasprice.web.vo.dto.BlockInfoDTO;
 import aeee.api.gasprice.web.vo.entity.GasPriceVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -28,5 +30,25 @@ public class InfuraService {
     @Test
     public void convert16to10(){
         log.info(UnitConvertor.hexStrToDecimalBigDecimal("0x104c533c00").toString());
+    }
+
+    @Test
+    public void getBlockInfo(){
+        BlockInfoDTO blockInfoDTO = gasPriceService.purifyGasPrice();
+        assert(blockInfoDTO != null);
+        log.info(blockInfoDTO.toString());
+    }
+
+    @Test
+    public void measureSpeed(){
+        long run = 100;
+        long sum = 0;
+        for(int i =0; i<run; i++){
+            sum  += SpeedTime.measure("Api", o->{
+                gasPriceService.purifyGasPrice();
+                return null;
+            });
+        }
+        log.info("Avg: {}", sum/run);
     }
 }

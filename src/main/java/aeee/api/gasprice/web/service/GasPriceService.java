@@ -28,19 +28,20 @@ import java.util.stream.Collectors;
 @Service
 public class GasPriceService {
 
-    private final ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper mapper = new ObjectMapper();
 
-    @Autowired
-    private InfuraAPI infuraAPI;
+    private final InfuraAPI infuraAPI;
 
-    public GasPriceService() {
+    public GasPriceService(InfuraAPI infuraAPI) {
+        this.infuraAPI = infuraAPI;
+
         SimpleModule simpleModule = new SimpleModule();
         simpleModule.addDeserializer(GasPriceVO.class, new GasPriceVODeserializer());
         mapper.registerModule(simpleModule);
     }
 
     public JsonNode getLatestTransactionJson(){
-        String str = infuraAPI.getLatestTransaction(String.class);
+        String str = infuraAPI.getEth_getBlockByNumber(String.class);
         try {
             return mapper.readTree(str);
         }catch (IOException e){
@@ -50,7 +51,7 @@ public class GasPriceService {
     }
 
     public GasPriceVO getLatestTransactionVO(){
-        String str = infuraAPI.getLatestTransaction(String.class);
+        String str = infuraAPI.getEth_getBlockByNumber(String.class);
         try {
             return mapper.readValue(str, GasPriceVO.class);
         }catch (IOException e){
@@ -65,8 +66,9 @@ public class GasPriceService {
         List<TransactionVO> transactionVOS = gasPriceVO.getResult().getTransactions();
 
         BlockInfoDTO blockInfoDTO = new BlockInfoDTO();
+        blockInfoDTO.setAverage(BigDecimal.ZERO);
 
-        BigDecimal sum = BigDecimal.ZERO;
+        BigDecimal sum;
         BigDecimal max = BigDecimal.ZERO;
         BigDecimal min = BigDecimal.ZERO;
 
@@ -90,17 +92,18 @@ public class GasPriceService {
                 counter.put(cgp, count == null? 1L : count + 1);
             }
 
-            blockInfoDTO.setTransactionCountor(counter.entrySet().stream()
+            blockInfoDTO.setTransactionCounter(counter.entrySet().stream()
                 .map( entry->  new TransactionCountDTO(entry.getKey(), entry.getValue()) )
                 .sorted(TransactionCountDTO.ComparatorAsc)
                 .collect(Collectors.toList())
             );
+
+            BigDecimal ave = UnitConvertor.convertUnitWithRoundHalf(sum.divide(new BigDecimal(size), 0, RoundingMode.HALF_UP), Unit.WEI, Unit.GIGA, 1);
+            blockInfoDTO.setAverage(ave);
         }
 
         blockInfoDTO.setNumber(resultVO.getNumber());
         blockInfoDTO.setSize(Long.valueOf(size));
-        BigDecimal ave = UnitConvertor.convertUnitWithRoundHalf(sum.divide(new BigDecimal(size), 0, RoundingMode.HALF_UP), Unit.WEI, Unit.GIGA, 1);
-        blockInfoDTO.setAverage(ave);
         blockInfoDTO.setMin(UnitConvertor.convertUnitWithRoundHalf(min, Unit.WEI, Unit.GIGA, 1));
         blockInfoDTO.setMax(UnitConvertor.convertUnitWithRoundHalf(max, Unit.WEI, Unit.GIGA, 1));
 

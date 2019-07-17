@@ -1,5 +1,6 @@
 package aeee.api.gasprice.web.api;
 
+import aeee.api.gasprice.define.InfuraMethod;
 import aeee.api.gasprice.exception.ServerException;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
@@ -10,10 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.ResponseErrorHandler;
 
 import java.io.IOException;
-import java.net.URL;
 
 @Slf4j
 @Component
@@ -63,18 +62,32 @@ public class InfuraAPI extends HttpSender {
         }
     }
 
-    public <T> T getLatestTransaction(Class<T> clazz){
+    private JSONObject getBaseParameter(InfuraMethod method){
         JSONObject json= new JSONObject();
         json.put("jsonrpc", "2.0");
-        json.put("method", "eth_getBlockByNumber");
+        json.put("method", method.value);
+        json.put("id", 1);
+        return json;
+    }
+
+    private <T> T request(Class<T> clazz, InfuraMethod method, JSONArray params){
+        JSONObject json= getBaseParameter(method);
+        json.put("params", params);
+
+        return request(clazz, json.toString());
+    }
+
+    private <T> T request(Class<T> clazz, String param){
+
+        HttpEntity httpEntity = getHttpEntity(param);
+
+        return post(httpEntity, clazz);
+    }
+
+    public <T> T getEth_getBlockByNumber(Class<T> clazz){
         JSONArray params = new JSONArray();
         params.put("latest");
         params.put(true);
-        json.put("params", params);
-        json.put("id", 1);
-
-        HttpEntity httpEntity = getHttpEntity(json.toString());
-
-        return post(httpEntity, clazz);
+        return request(clazz, InfuraMethod.eth_getBlockByNumber, params);
     }
 }

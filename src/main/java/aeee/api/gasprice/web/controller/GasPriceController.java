@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/gasprice")
 public class GasPriceController extends FilterController {
 
-    @Autowired
-    private GasPriceService gasPriceService;
+    private final GasPriceService gasPriceService;
+
+    public GasPriceController(GasPriceService gasPriceService){
+        this.gasPriceService = gasPriceService;
+    }
 
     @GetMapping("/hello")
     public ResponseDTO<TestDto> hello(){

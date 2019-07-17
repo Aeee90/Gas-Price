@@ -46,17 +46,17 @@ abstract class HttpSender implements ResponseErrorHandler {
         return new HttpEntity<>(data, headers);
     }
 
-    protected <T> HttpEntity<T> getHttpEntity(T data, GenerateHttpHeader generateHttpHeader){
-        HttpHeaders newHeaders = setHeader(headers);
-        return new HttpEntity<>(data, generateHttpHeader.generateHttpHeaders(newHeaders));
+    protected <T> HttpEntity<T> getHttpEntity(T data, CustomizHttpHeader customizHttpHeader){
+        HttpHeaders newHeaders = setHeader(new HttpHeaders());
+        return new HttpEntity<>(data, customizHttpHeader.customizeHttpHeaders(newHeaders));
     }
 
     protected  <T> T post(@Nullable Object request, Class<T> clazz) {
         return new RestTemplate().postForEntity(URL, request, clazz).getBody();
     }
 
-    protected interface GenerateHttpHeader {
-        HttpHeaders generateHttpHeaders(HttpHeaders headers);
+    protected interface CustomizHttpHeader {
+        HttpHeaders customizeHttpHeaders(HttpHeaders headers);
     }
 
 }

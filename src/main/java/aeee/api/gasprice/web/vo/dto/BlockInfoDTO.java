@@ -21,6 +21,20 @@ public class BlockInfoDTO implements Serializable {
     private BigDecimal min;
 
     @Setter @Getter
-    private List<TransactionCountDTO> transactionCountor;
+    private List<TransactionCountDTO> transactionCounter;
 
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("{")
+            .append("number:").append(number).append(",")
+            .append("size:").append(size).append(",")
+            .append("average:").append(average).append(",")
+            .append("max:").append(max).append(",")
+            .append("min:").append(min)
+            .append("}");
+
+        return sb.toString();
+    }
 }
