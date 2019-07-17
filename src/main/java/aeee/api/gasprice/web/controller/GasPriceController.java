@@ -1,6 +1,7 @@
 package aeee.api.gasprice.web.controller;
 
 import aeee.api.gasprice.web.service.GasPriceService;
+import aeee.api.gasprice.web.vo.dto.BlockInfoDTO;
 import aeee.api.gasprice.web.vo.dto.ResponseDTO;
 import aeee.api.gasprice.web.vo.dto.ResponseType;
 import aeee.api.gasprice.web.vo.dto.TestDto;
@@ -23,6 +24,11 @@ public class GasPriceController extends FilterController {
     }
 
     @GetMapping("")
+    public ResponseDTO<BlockInfoDTO> getBlockInfo(){
+        return ResponseDTO.get(ResponseType.Success, "", gasPriceService.purifyGasPrice());
+    }
+
+    @GetMapping("/latest")
     public ResponseDTO<GasPriceVO> getLatestTransaction(){
         return ResponseDTO.get(ResponseType.Success, "", gasPriceService.getLatestTransactionVO());
     }

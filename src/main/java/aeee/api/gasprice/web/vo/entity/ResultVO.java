@@ -1,19 +1,20 @@
 package aeee.api.gasprice.web.vo.entity;
 
+import aeee.api.gasprice.util.UnitConvertor;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 
-public class ResultVO implements InitializerWithJsonNode<ResultVO>, Serializable {
+public class ResultVO implements InitializeWithJsonNode<ResultVO>, Serializable {
 
     @Setter @Getter
-    private String number;
+    private BigDecimal number;
     @Setter @Getter
-    private ArrayList<TranscationVO> transactions = new ArrayList<>();
+    private ArrayList<TransactionVO> transactions = new ArrayList<>();
 
     @Override
     public String toString() {
@@ -31,15 +32,12 @@ public class ResultVO implements InitializerWithJsonNode<ResultVO>, Serializable
     }
 
     @Override
-    public ResultVO initializWithJwonNode(JsonNode jsonNode) {
-        this.number = jsonNode.get("number").asText();
-
-        jsonNode.get("number").asText();
+    public ResultVO initializeWithJsonNode(JsonNode jsonNode) {
+         setNumber(UnitConvertor.hexStrToDecimalBigDecimal(jsonNode.get("number").asText()));
 
         JsonNode tsArray = jsonNode.get("transactions");
         if(tsArray.isArray())
-            for (JsonNode node : tsArray) transactions.add(new TranscationVO().initializWithJwonNode(node));
-
+            for (JsonNode node : tsArray) transactions.add(new TransactionVO().initializeWithJsonNode(node));
 
         return this;
     }

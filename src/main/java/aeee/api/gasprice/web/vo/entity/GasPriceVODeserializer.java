@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
+
 public class GasPriceVODeserializer extends StdDeserializer<GasPriceVO> {
 
     public GasPriceVODeserializer() { this(null); }
@@ -18,9 +19,7 @@ public class GasPriceVODeserializer extends StdDeserializer<GasPriceVO> {
         try {
             JsonNode node = jp.getCodec().readTree(jp);
 
-            gasPriceVO.setJsonrpc(node.get("jsonrpc").asText());
-            gasPriceVO.setId(node.get("id").asText());
-            gasPriceVO.setResult(new ResultVO().initializWithJwonNode(node.get("result")));
+            gasPriceVO.initializeWithJsonNode(node);
         }catch (Exception e){
             throw new DeserializationException(e);
         }

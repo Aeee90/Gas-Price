@@ -74,11 +74,4 @@ public class InfuraApi {
         log.info(gasPriceLatest);
         assert(gasPriceLatest != null && !gasPriceLatest.isEmpty());
     }
-
-    @Test
-    public void getGasPriceServiceVO(){
-        GasPriceVO gasPriceLatest = infuraAPI.getLatestTransaction(GasPriceVO.class);
-        assert(gasPriceLatest != null);
-        log.info(gasPriceLatest.toString());
-    }
 }
