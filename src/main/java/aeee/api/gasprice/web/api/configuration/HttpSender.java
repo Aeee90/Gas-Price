@@ -1,4 +1,4 @@
-package aeee.api.gasprice.web.api;
+package aeee.api.gasprice.web.api.configuration;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.web.client.*;
 import javax.annotation.PostConstruct;
 
 @Slf4j
-abstract class HttpSender implements ResponseErrorHandler {
+public abstract class HttpSender implements ResponseErrorHandler {
 
     @Autowired
     private Environment environment;
@@ -40,7 +40,7 @@ abstract class HttpSender implements ResponseErrorHandler {
     abstract protected HttpHeaders setHeader(HttpHeaders headers);
 
 
-    protected <T> HttpEntity<T> getHttpEntity(T data){
+    public <T> HttpEntity<T> getHttpEntity(T data){
         return new HttpEntity<>(data, headers);
     }
 
@@ -49,7 +49,7 @@ abstract class HttpSender implements ResponseErrorHandler {
         return new HttpEntity<>(data, customizHttpHeader.customizeHttpHeaders(newHeaders));
     }
 
-    protected  <T> T post(@Nullable Object request, Class<T> clazz) {
+    public  <T> T post(@Nullable Object request, Class<T> clazz) {
         return new RestTemplate().postForEntity(URL, request, clazz).getBody();
     }
 
