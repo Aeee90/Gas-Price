@@ -33,7 +33,7 @@ public class ResultVO implements InitializeWithJsonNode<ResultVO>, Serializable 
 
     @Override
     public ResultVO initializeWithJsonNode(JsonNode jsonNode) {
-         setNumber(UnitConvertor.hexStrToDecimalBigDecimal(jsonNode.get("number").asText()));
+         setNumber(UnitConvertor.convertHexStrToDecimalBigDecimal(jsonNode.get("number").asText()));
 
         JsonNode tsArray = jsonNode.get("transactions");
         if(tsArray.isArray())

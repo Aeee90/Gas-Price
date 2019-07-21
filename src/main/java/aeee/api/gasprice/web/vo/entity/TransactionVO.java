@@ -20,7 +20,7 @@ public class TransactionVO implements InitializeWithJsonNode<TransactionVO>, Ser
 
     @Override
     public TransactionVO initializeWithJsonNode(JsonNode jsonNode) {
-        setGasPrice(UnitConvertor.hexStrToDecimalBigDecimal(jsonNode.get("gasPrice").asText()));
+        setGasPrice(UnitConvertor.convertHexStrToDecimalBigDecimal(jsonNode.get("gasPrice").asText()));
         return this;
     }
 }

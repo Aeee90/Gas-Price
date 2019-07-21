@@ -17,8 +17,8 @@ public class UnitConvertor {
         return matcher.find()? matcher.group(1) : "0";
     }
 
-    public static BigDecimal converthexStrToDecimalBigDecimal(String hex){ return new BigDecimal(new BigInteger(getHexStr(hex), 16)); }
-    public static Long converthexStrToDecimalLong(String hex){ return Long.valueOf(getHexStr(hex), 16); }
+    public static BigDecimal convertHexStrToDecimalBigDecimal(String hex){ return new BigDecimal(new BigInteger(getHexStr(hex), 16)); }
+    public static Long convertHexStrToDecimalLong(String hex){ return Long.valueOf(getHexStr(hex), 16); }
 
     public static BigDecimal convertUnit(BigDecimal value, Unit from , Unit to){ return value.multiply(from.getUnit()).divide(to.getUnit()); }
     public static BigDecimal convertUnitWithRoundDown(BigDecimal value, Unit from , Unit to, int point){ return value.multiply(from.getUnit()).divide(to.getUnit(), point, RoundingMode.DOWN); }
