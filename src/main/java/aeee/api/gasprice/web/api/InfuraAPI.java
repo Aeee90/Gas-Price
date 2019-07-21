@@ -34,7 +34,7 @@ public class InfuraAPI {
     }
 
     private <T> T request(Class<T> clazz, InfuraMethod method, JSONArray params){
-        JSONObject json= getBaseParameter(method);
+        JSONObject json = getBaseParameter(method);
         json.put("params", params);
 
         return request(clazz, json.toString());

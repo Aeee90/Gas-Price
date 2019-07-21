@@ -23,7 +23,7 @@ public class GasPriceVO implements Serializable, InitializeWithJsonNode<GasPrice
     @Override
     public GasPriceVO initializeWithJsonNode(JsonNode jsonNode) {
 
-        setJsonrpc(jsonNode.get("jsonrpc").asText());
+        setJsonrpc(jsonNode.get("jsonrpc1").asText());
         setId(jsonNode.get("id").asText());
         setResult(new ResultVO().initializeWithJsonNode(jsonNode.get("result")));
 
