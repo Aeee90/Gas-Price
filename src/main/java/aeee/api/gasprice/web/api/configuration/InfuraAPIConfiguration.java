@@ -40,21 +40,18 @@ public class InfuraAPIConfiguration extends HttpSender {
         try{
             status = response.getStatusCode();
         }catch (IOException e){
-            log.error("Status is Null");
+            log.error("getStatusCode of ClientHttpResponse is Error: {}", e.getMessage());
             throw new ServerException();
         }
 
-        if(status != null) {
-            switch (status){
-                case NOT_FOUND: log.error("{} Is Not Found.", url); throw new ServerException();
-                case REQUEST_TIMEOUT:
-                    String message = "네트워크 상태가 좋지 않습니다. 잠시후에 시도하세요.";
-                    log.error(message);
-                    throw new ServerException(message);
-                default: log.error("{}'s Status Is Not Found.", url); throw new ServerException();
-            }
-        }else {
-            log.error("Status is Null");
+        switch (status){
+            case NOT_FOUND: log.error("{} Is Not Found.", url); throw new ServerException();
+            case REQUEST_TIMEOUT:
+                String message = "네트워크 상태가 좋지 않습니다. 잠시후에 시도하세요.";
+                log.error(message);
+                throw new ServerException(message);
+            default: log.error("{}'s Status Is Not Found.", url); throw new ServerException();
         }
+
     }
 }
