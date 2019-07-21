@@ -15,20 +15,20 @@ public abstract class HttpSender implements ResponseErrorHandler {
     @Autowired
     private Environment environment;
 
-    protected String URL;
-    private final String _urlKey;
+    protected String url;
+    private final String urlKey;
     private HttpHeaders headers = new HttpHeaders();
 
 
     public HttpSender(String urlKey){
-        _urlKey = urlKey;
+        this.urlKey = urlKey;
     }
 
     @PostConstruct
     public void init() {
-        URL = environment.getProperty(_urlKey);
-        log.info("Set {}", URL);
-        if(URL == null) throw new IllegalArgumentException("URL Is Null.");
+        url = environment.getProperty(urlKey);
+        log.info("Set {}", url);
+        if(url == null) throw new IllegalArgumentException("URL Is Null.");
 
         _setHeader();
         if(headers == null) throw new IllegalArgumentException(" HttpHeaders Must Not be Null.");
@@ -44,16 +44,16 @@ public abstract class HttpSender implements ResponseErrorHandler {
         return new HttpEntity<>(data, headers);
     }
 
-    protected <T> HttpEntity<T> getHttpEntity(T data, CustomizHttpHeader customizHttpHeader){
+    protected <T> HttpEntity<T> getHttpEntity(T data, CustomizeHttpHeader customizeHttpHeader){
         HttpHeaders newHeaders = setHeader(new HttpHeaders());
-        return new HttpEntity<>(data, customizHttpHeader.customizeHttpHeaders(newHeaders));
+        return new HttpEntity<>(data, customizeHttpHeader.customizeHttpHeaders(newHeaders));
     }
 
     public  <T> T post(@Nullable Object request, Class<T> clazz) {
-        return new RestTemplate().postForEntity(URL, request, clazz).getBody();
+        return new RestTemplate().postForEntity(url, request, clazz).getBody();
     }
 
-    protected interface CustomizHttpHeader {
+    protected interface CustomizeHttpHeader {
         HttpHeaders customizeHttpHeaders(HttpHeaders headers);
     }
 

@@ -52,7 +52,7 @@ public class InfuraAPI {
         params.put("latest");
         params.put(true);
 
-        return checkError(request(String.class, InfuraMethod.eth_getBlockByNumber, params));
+        return checkError(request(String.class, InfuraMethod.EthGetBlockByNumber, params));
     }
 
     private JsonNode checkError(String str){

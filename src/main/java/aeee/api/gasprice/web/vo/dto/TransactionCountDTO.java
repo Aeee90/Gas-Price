@@ -21,21 +21,4 @@ public class TransactionCountDTO {
     private BigDecimal gasPrice;
     @Setter @Getter
     private Long count;
-
-
-    public static Comparator<TransactionCountDTO> ComparatorAsc = new Comparator<TransactionCountDTO>() {
-        @Override
-        public int compare(TransactionCountDTO o1, TransactionCountDTO o2) {
-            return o1.getGasPrice().compareTo(o2.getGasPrice());
-        }
-    };
-
-    public static Comparator<TransactionCountDTO> ComparatorDESC = new Comparator<TransactionCountDTO>() {
-        @Override
-        public int compare(TransactionCountDTO o1, TransactionCountDTO o2) {
-            return o2.getGasPrice().compareTo(o1.getGasPrice());
-        }
-    };
-
-
 }

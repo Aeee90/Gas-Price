@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Order(Ordered.LOWEST_PRECEDENCE)
-public class PropertiesEnvironmentPostProcessor implements EnvironmentPostProcessor {
+public class LoadProperties implements EnvironmentPostProcessor {
 
     private static final List<String> CUSTOM_PROPERTIES = Arrays.asList("properties/infura.properties");
 

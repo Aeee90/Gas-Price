@@ -6,6 +6,7 @@ import aeee.api.gasprice.util.UnitConvertor;
 import aeee.api.gasprice.web.api.InfuraAPI;
 import aeee.api.gasprice.web.vo.dto.BlockInfoDTO;
 import aeee.api.gasprice.web.vo.dto.TransactionCountDTO;
+import aeee.api.gasprice.web.vo.dto.comparator.TransactionCountDTOComparator;
 import aeee.api.gasprice.web.vo.entity.GasPriceVO;
 import aeee.api.gasprice.web.vo.entity.GasPriceVODeserializer;
 import aeee.api.gasprice.web.vo.entity.ResultVO;
@@ -84,7 +85,7 @@ public class GasPriceService {
 
             blockInfoDTO.setTransactionCounter(counter.entrySet().stream()
                 .map( entry->  new TransactionCountDTO(entry.getKey(), entry.getValue()) )
-                .sorted(TransactionCountDTO.ComparatorAsc)
+                .sorted(TransactionCountDTOComparator.ComparatorAsc)
                 .collect(Collectors.toList())
             );
 

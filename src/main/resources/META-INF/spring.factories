@@ -1,2 +1,2 @@
 #Auto Configuration
-org.springframework.boot.env.EnvironmentPostProcessor=aeee.api.gasprice.config.PropertiesEnvironmentPostProcessor
+org.springframework.boot.env.EnvironmentPostProcessor=aeee.api.gasprice.config.LoadProperties

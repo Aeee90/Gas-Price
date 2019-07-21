@@ -3,7 +3,7 @@ package aeee.api.gasprice.define;
 
 public enum  InfuraMethod {
 
-    eth_getBlockByNumber("eth_getBlockByNumber");
+    EthGetBlockByNumber("eth_getBlockByNumber");
 
     public final String value;
 

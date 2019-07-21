@@ -10,15 +10,15 @@ import java.util.regex.Pattern;
 
 public class UnitConvertor {
 
-    private static Pattern hexReg = Pattern.compile("^0x([0-9a-f]+)");
+    private static Pattern HexReg = Pattern.compile("^0x([0-9a-f]+)");
 
     private static String getHexStr(String hex){
-        Matcher matcher = hexReg.matcher(hex);
+        Matcher matcher = HexReg.matcher(hex);
         return matcher.find()? matcher.group(1) : "0";
     }
 
-    public static BigDecimal hexStrToDecimalBigDecimal(String hex){ return new BigDecimal(new BigInteger(getHexStr(hex), 16)); }
-    public static Long hexStrToDecimalLong(String hex){ return Long.valueOf(getHexStr(hex), 16); }
+    public static BigDecimal converthexStrToDecimalBigDecimal(String hex){ return new BigDecimal(new BigInteger(getHexStr(hex), 16)); }
+    public static Long converthexStrToDecimalLong(String hex){ return Long.valueOf(getHexStr(hex), 16); }
 
     public static BigDecimal convertUnit(BigDecimal value, Unit from , Unit to){ return value.multiply(from.getUnit()).divide(to.getUnit()); }
     public static BigDecimal convertUnitWithRoundDown(BigDecimal value, Unit from , Unit to, int point){ return value.multiply(from.getUnit()).divide(to.getUnit(), point, RoundingMode.DOWN); }
