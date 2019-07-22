@@ -29,7 +29,7 @@ public class InfuraService {
 
     @Test
     public void convert16to10(){
-        log.info(UnitConvertor.hexStrToDecimalBigDecimal("0x104c533c00").toString());
+        log.info(UnitConvertor.convertHexStrToDecimalBigDecimal("0x104c533c00").toString());
     }
 
     @Test
