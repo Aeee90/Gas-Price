@@ -3,15 +3,14 @@ package aeee.api.gasprice.web.api;
 import aeee.api.gasprice.define.InfuraMethod;
 import aeee.api.gasprice.exception.ServerException;
 import aeee.api.gasprice.web.api.configuration.HttpSender;
-import com.fasterxml.jackson.databind.JsonNode;
+import aeee.api.gasprice.web.vo.entity.GasPriceEntity;
+import aeee.api.gasprice.web.vo.entity.InfuraValidErrorEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
 
 @Slf4j
 @Component
@@ -27,7 +26,7 @@ public class InfuraAPI {
 
     private JSONObject getBaseParameter(InfuraMethod method){
         JSONObject json= new JSONObject();
-        json.put("jsonrpc", "2.0");
+        json.put("jsonrpc1", "2.0");
         json.put("method", method.value);
         json.put("id", 1);
         return json;
@@ -47,34 +46,18 @@ public class InfuraAPI {
         return sender.post(httpEntity, clazz);
     }
 
-    public JsonNode getEth_getBlockByNumber(){
+    public GasPriceEntity getEth_getBlockByNumber(){
         JSONArray params = new JSONArray();
         params.put("latest");
         params.put(true);
 
-        return checkError(request(String.class, InfuraMethod.EthGetBlockByNumber, params));
+        GasPriceEntity result = request(GasPriceEntity.class, InfuraMethod.ETH_GET_BLOCK_BY_NUMBER, params);
+
+        return validError(result);
     }
 
-    private JsonNode checkError(String str){
-        JsonNode data;
-        try {
-            data =  objectMapper.readTree(str);
-        }catch (IOException e){
-            log.error("Can't Convert String To JsonNoe: {}", str);
-            throw new ServerException();
-        }
-
-        if(data == null){
-            log.error("JsonNode is NUll, Can't Convert String To JsonNoe: {}", str);
-            throw new ServerException();
-        }else{
-            JsonNode error = data.get("error");
-            if(error != null) {
-                log.error("API is Error(Code: {}, Message: {})", error.get("code"), error.get("message"));
-                throw new ServerException();
-            }
-        }
-
-        return data;
+    private <T extends InfuraValidErrorEntity> T validError(InfuraValidErrorEntity isError){
+        if(isError.isError()) throw new ServerException();
+        else return (T) isError;
     }
 }

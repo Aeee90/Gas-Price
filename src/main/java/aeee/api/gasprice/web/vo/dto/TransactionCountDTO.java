@@ -1,13 +1,11 @@
 package aeee.api.gasprice.web.vo.dto;
 
 
-import aeee.api.gasprice.web.vo.entity.TransactionVO;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Comparator;
 
+@Data
 public class TransactionCountDTO {
 
     public TransactionCountDTO() { }
@@ -17,8 +15,6 @@ public class TransactionCountDTO {
         this.count = count;
     }
 
-    @Setter @Getter
     private BigDecimal gasPrice;
-    @Setter @Getter
     private Long count;
 }

@@ -27,7 +27,6 @@ dependencies {
 	annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.8'
 	
 	//JSON
-	compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.9'
 	compile group: 'org.json', name: 'json', version: '20180813'
 	
 	testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.1.6.RELEASE'

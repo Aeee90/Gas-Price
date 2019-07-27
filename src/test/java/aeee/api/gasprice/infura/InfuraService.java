@@ -4,7 +4,6 @@ import aeee.api.gasprice.SpeedTime;
 import aeee.api.gasprice.util.UnitConvertor;
 import aeee.api.gasprice.web.service.GasPriceService;
 import aeee.api.gasprice.web.vo.dto.BlockInfoDTO;
-import aeee.api.gasprice.web.vo.entity.GasPriceVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,13 +18,6 @@ public class InfuraService {
 
     @Autowired
     private GasPriceService gasPriceService;
-
-    @Test
-    public void getGasPriceServiceGasPriceVO(){
-        GasPriceVO gasPriceVO = gasPriceService.getLatestTransactionVO();
-        assert(gasPriceVO != null);
-        log.info(gasPriceVO.toString());
-    }
 
     @Test
     public void convert16to10(){

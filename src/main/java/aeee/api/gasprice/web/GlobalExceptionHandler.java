@@ -1,6 +1,7 @@
 package aeee.api.gasprice.web;
 
 import aeee.api.gasprice.exception.DeserializationException;
+import aeee.api.gasprice.exception.InfuraErrorException;
 import aeee.api.gasprice.web.vo.dto.ResponseDTO;
 import aeee.api.gasprice.web.vo.dto.ResponseType;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,14 @@ public class GlobalExceptionHandler {
         log.error(e.getMessage());
 
         return ResponseDTO.get(ResponseType.FailDeserialization, "서버 상에 문제가 있습니다.");
+    }
+
+    @ExceptionHandler(InfuraErrorException.class)
+    public ResponseDTO infuraErrorException(InfuraErrorException e){
+
+        log.error("[" + e.getInfurErrorCode() + "]" + e.getInfuraErrorMessage());
+
+        return ResponseDTO.get(ResponseType.InfuraErrorException, "서버 상에 문제가 있습니다.");
     }
 
 }

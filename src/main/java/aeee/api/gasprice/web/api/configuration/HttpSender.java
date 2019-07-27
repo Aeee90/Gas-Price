@@ -24,6 +24,8 @@ public abstract class HttpSender implements ResponseErrorHandler {
         this.urlKey = urlKey;
     }
 
+    private final RestTemplate restTemplate = new RestTemplate();
+
     @PostConstruct
     public void init() {
         url = environment.getProperty(urlKey);
@@ -50,7 +52,7 @@ public abstract class HttpSender implements ResponseErrorHandler {
     }
 
     public  <T> T post(@Nullable Object request, Class<T> clazz) {
-        return new RestTemplate().postForEntity(url, request, clazz).getBody();
+        return restTemplate.postForEntity(url, request, clazz).getBody();
     }
 
     protected interface CustomizeHttpHeader {

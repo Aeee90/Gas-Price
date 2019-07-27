@@ -1,23 +1,17 @@
 package aeee.api.gasprice.web.service;
 
 import aeee.api.gasprice.define.Unit;
-import aeee.api.gasprice.exception.ServerException;
 import aeee.api.gasprice.util.UnitConvertor;
 import aeee.api.gasprice.web.api.InfuraAPI;
 import aeee.api.gasprice.web.vo.dto.BlockInfoDTO;
 import aeee.api.gasprice.web.vo.dto.TransactionCountDTO;
 import aeee.api.gasprice.web.vo.dto.comparator.TransactionCountDTOComparator;
-import aeee.api.gasprice.web.vo.entity.GasPriceVO;
-import aeee.api.gasprice.web.vo.entity.GasPriceVODeserializer;
-import aeee.api.gasprice.web.vo.entity.ResultVO;
-import aeee.api.gasprice.web.vo.entity.TransactionVO;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import aeee.api.gasprice.web.vo.entity.GasPriceEntity;
+import aeee.api.gasprice.web.vo.entity.ResultEntity;
+import aeee.api.gasprice.web.vo.entity.TransactionEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
@@ -29,32 +23,16 @@ import java.util.stream.Collectors;
 @Service
 public class GasPriceService {
 
-    private static final ObjectMapper mapper = new ObjectMapper();
-
     private final InfuraAPI infuraAPI;
 
     public GasPriceService(InfuraAPI infuraAPI) {
         this.infuraAPI = infuraAPI;
-
-        SimpleModule simpleModule = new SimpleModule();
-        simpleModule.addDeserializer(GasPriceVO.class, new GasPriceVODeserializer());
-        mapper.registerModule(simpleModule);
-    }
-
-    public GasPriceVO getLatestTransactionVO(){
-        JsonNode data = infuraAPI.getEth_getBlockByNumber();
-        try {
-            return mapper.treeToValue(data, GasPriceVO.class);
-        }catch (IOException e){
-            log.error("Can't Convert JsonNode To GasPriceVO: {}", data);
-            throw new ServerException();
-        }
     }
 
     public BlockInfoDTO manufactureGasPrice(){
-        GasPriceVO gasPriceVO = getLatestTransactionVO();
-        ResultVO resultVO = gasPriceVO.getResult();
-        List<TransactionVO> transactionVOS = gasPriceVO.getResult().getTransactions();
+        GasPriceEntity gasPriceVO = infuraAPI.getEth_getBlockByNumber();
+        ResultEntity result = gasPriceVO.getResult();
+        List<TransactionEntity> transactionEntities = gasPriceVO.getResult().getTransactions();
 
         BlockInfoDTO blockInfoDTO = new BlockInfoDTO();
         blockInfoDTO.setAverage(BigDecimal.ZERO);
@@ -63,16 +41,16 @@ public class GasPriceService {
         BigDecimal max = BigDecimal.ZERO;
         BigDecimal min = BigDecimal.ZERO;
 
-        int size = transactionVOS.size();
-        if(!transactionVOS.isEmpty()){
+        int size = transactionEntities.size();
+        if(!transactionEntities.isEmpty()){
             Map<BigDecimal, Long> counter = new HashMap<>();
 
-            BigDecimal first = transactionVOS.get(0).getGasPrice();
+            BigDecimal first = transactionEntities.get(0).getGasPrice();
             sum = min = max = first;
             counter.put(UnitConvertor.convertUnitWithRoundHalf(first, Unit.WEI, Unit.GIGA, 1), 1L);
 
             for(int i=1; i < size; i++){
-                TransactionVO tr = transactionVOS.get(i);
+                TransactionEntity tr = transactionEntities.get(i);
                 BigDecimal gp = tr.getGasPrice();
                 sum = sum.add(gp);
                 if(gp.compareTo(max) > 0) max = gp;
@@ -93,7 +71,7 @@ public class GasPriceService {
             blockInfoDTO.setAverage(ave);
         }
 
-        blockInfoDTO.setNumber(resultVO.getNumber());
+        blockInfoDTO.setNumber(result.getNumber());
         blockInfoDTO.setSize(Long.valueOf(size));
         blockInfoDTO.setMin(UnitConvertor.convertUnitWithRoundHalf(min, Unit.WEI, Unit.GIGA, 1));
         blockInfoDTO.setMax(UnitConvertor.convertUnitWithRoundHalf(max, Unit.WEI, Unit.GIGA, 1));

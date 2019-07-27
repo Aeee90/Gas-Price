@@ -2,7 +2,7 @@ package aeee.api.gasprice.infura;
 
 import aeee.api.gasprice.SpeedTime;
 import aeee.api.gasprice.web.api.InfuraAPI;
-import com.fasterxml.jackson.databind.JsonNode;
+import aeee.api.gasprice.web.vo.entity.GasPriceEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
@@ -40,41 +41,34 @@ public class InfuraApi {
 
     @Test
     public void getLatestTransaction() throws JSONException, IOException {
-        SpeedTime.measure("Api", o->{
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-            JSONObject json= new JSONObject();
-            json.put("jsonrpc", "2.0");
-            json.put("method", "eth_getBlockByNumber");
-            JSONArray params = new JSONArray();
-            params.put("latest");
-            params.put(true);
-            json.put("params", params);
-            json.put("id", 1);
+        JSONObject json= new JSONObject();
+        json.put("jsonrpc", "2.0");
+        json.put("method", "eth_getBlockByNumber");
+        JSONArray params = new JSONArray();
+        params.put("latest");
+        params.put(true);
+        json.put("params", params);
+        json.put("id", 1);
 
-            log.info(json.toString());
+        HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
 
-            HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<GasPriceEntity> responseEntity = restTemplate.postForEntity(URL, request, GasPriceEntity.class);
+        GasPriceEntity gasPriceVO = responseEntity.getBody();
 
-            RestTemplate restTemplate = new RestTemplate();
-            String responseEntity = restTemplate.postForObject(URL, request, String.class);
-            try{
-                JsonNode root = objectMapper.readTree(responseEntity);
-                log.info(root.toString());
-            }catch (IOException e){
-
-            }
-            return null;
-        });
+        assert(gasPriceVO != null);
+        assert(!gasPriceVO.isError());
     }
 
     @Autowired
     private InfuraAPI infuraAPI;
 
     @Test
-    public void getGasPriceServiceString(){
-        JsonNode gasPriceLatest = infuraAPI.getEth_getBlockByNumber();
+    public void getGasPriceServiceGasPriceVO(){
+        GasPriceEntity gasPriceLatest = infuraAPI.getEth_getBlockByNumber();
         assert(gasPriceLatest != null);
         log.info(gasPriceLatest.toString());
     }

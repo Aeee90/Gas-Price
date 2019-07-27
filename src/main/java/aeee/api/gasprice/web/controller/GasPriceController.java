@@ -4,13 +4,14 @@ import aeee.api.gasprice.web.service.GasPriceService;
 import aeee.api.gasprice.web.vo.dto.BlockInfoDTO;
 import aeee.api.gasprice.web.vo.dto.ResponseDTO;
 import aeee.api.gasprice.web.vo.dto.ResponseType;
-import aeee.api.gasprice.web.vo.entity.GasPriceVO;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/gasprice")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class GasPriceController extends FilterController {
 
     private final GasPriceService gasPriceService;
@@ -22,10 +23,5 @@ public class GasPriceController extends FilterController {
     @GetMapping("")
     public ResponseDTO<BlockInfoDTO> getBlockInfo(){
         return ResponseDTO.get(ResponseType.Success, "", gasPriceService.manufactureGasPrice());
-    }
-
-    @GetMapping("/latest")
-    public ResponseDTO<GasPriceVO> getLatestTransaction(){
-        return ResponseDTO.get(ResponseType.Success, "", gasPriceService.getLatestTransactionVO());
     }
 }
