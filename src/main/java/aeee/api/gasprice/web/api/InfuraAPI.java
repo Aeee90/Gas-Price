@@ -5,7 +5,6 @@ import aeee.api.gasprice.exception.ServerException;
 import aeee.api.gasprice.web.api.configuration.HttpSender;
 import aeee.api.gasprice.web.vo.entity.GasPriceEntity;
 import aeee.api.gasprice.web.vo.entity.InfuraValidErrorEntity;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,8 +14,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class InfuraAPI {
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     private final HttpSender sender;
 
