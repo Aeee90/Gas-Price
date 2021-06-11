@@ -1,4 +1,4 @@
-package aeee.api.gasprice.web.api.configuration;
+package aeee.api.gasprice.api.configuration;
 
 import aeee.api.gasprice.exception.ServerException;
 import lombok.extern.slf4j.Slf4j;

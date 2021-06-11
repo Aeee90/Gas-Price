@@ -1,10 +1,10 @@
-package aeee.api.gasprice.web.api;
+package aeee.api.gasprice.api;
 
+import aeee.api.gasprice.api.configuration.HttpSender;
 import aeee.api.gasprice.define.InfuraMethod;
 import aeee.api.gasprice.exception.ServerException;
-import aeee.api.gasprice.web.api.configuration.HttpSender;
-import aeee.api.gasprice.web.vo.entity.GasPriceEntity;
-import aeee.api.gasprice.web.vo.entity.InfuraValidErrorEntity;
+import aeee.api.gasprice.vo.GasPriceEntity;
+import aeee.api.gasprice.vo.InfuraValidErrorEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;

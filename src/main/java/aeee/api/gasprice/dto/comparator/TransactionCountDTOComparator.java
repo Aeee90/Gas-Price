@@ -1,6 +1,7 @@
-package aeee.api.gasprice.web.vo.dto.comparator;
+package aeee.api.gasprice.dto.comparator;
 
-import aeee.api.gasprice.web.vo.dto.TransactionCountDTO;
+
+import aeee.api.gasprice.dto.TransactionCountDTO;
 
 import java.util.Comparator;
 

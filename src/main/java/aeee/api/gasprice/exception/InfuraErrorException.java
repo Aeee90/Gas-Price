@@ -1,6 +1,7 @@
 package aeee.api.gasprice.exception;
 
-import aeee.api.gasprice.web.vo.entity.ErrorEntity;
+
+import aeee.api.gasprice.vo.ErrorEntity;
 
 public class InfuraErrorException extends RuntimeException {
 

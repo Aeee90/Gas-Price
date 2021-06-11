@@ -1,4 +1,4 @@
-package aeee.api.gasprice.web.controller;
+package aeee.api.gasprice.controller;
 
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.web.bind.WebDataBinder;

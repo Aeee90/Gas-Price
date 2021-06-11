@@ -1,4 +1,4 @@
-package aeee.api.gasprice.web.vo.dto;
+package aeee.api.gasprice.dto;
 
 
 public enum  ResponseType {

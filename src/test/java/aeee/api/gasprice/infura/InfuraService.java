@@ -2,8 +2,8 @@ package aeee.api.gasprice.infura;
 
 import aeee.api.gasprice.SpeedTime;
 import aeee.api.gasprice.util.UnitConvertor;
-import aeee.api.gasprice.web.service.GasPriceService;
-import aeee.api.gasprice.web.vo.dto.BlockInfoDTO;
+import aeee.api.gasprice.service.GasPriceService;
+import aeee.api.gasprice.dto.BlockInfoDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;

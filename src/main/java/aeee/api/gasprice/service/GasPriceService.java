@@ -1,14 +1,14 @@
-package aeee.api.gasprice.web.service;
+package aeee.api.gasprice.service;
 
+import aeee.api.gasprice.api.InfuraAPI;
 import aeee.api.gasprice.define.Unit;
+import aeee.api.gasprice.dto.BlockInfoDTO;
+import aeee.api.gasprice.dto.TransactionCountDTO;
+import aeee.api.gasprice.dto.comparator.TransactionCountDTOComparator;
 import aeee.api.gasprice.util.UnitConvertor;
-import aeee.api.gasprice.web.api.InfuraAPI;
-import aeee.api.gasprice.web.vo.dto.BlockInfoDTO;
-import aeee.api.gasprice.web.vo.dto.TransactionCountDTO;
-import aeee.api.gasprice.web.vo.dto.comparator.TransactionCountDTOComparator;
-import aeee.api.gasprice.web.vo.entity.GasPriceEntity;
-import aeee.api.gasprice.web.vo.entity.ResultEntity;
-import aeee.api.gasprice.web.vo.entity.TransactionEntity;
+import aeee.api.gasprice.vo.GasPriceEntity;
+import aeee.api.gasprice.vo.ResultEntity;
+import aeee.api.gasprice.vo.TransactionEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package aeee.api.gasprice.web.vo.entity;
+package aeee.api.gasprice.vo;
 
 import aeee.api.gasprice.util.UnitConvertor;
 import lombok.Data;

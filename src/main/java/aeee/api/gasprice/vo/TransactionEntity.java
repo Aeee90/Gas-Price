@@ -1,7 +1,6 @@
-package aeee.api.gasprice.web.vo.entity;
+package aeee.api.gasprice.vo;
 
 import aeee.api.gasprice.util.UnitConvertor;
-import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
 
 import java.io.Serializable;

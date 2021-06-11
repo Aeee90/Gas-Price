@@ -1,9 +1,7 @@
-package aeee.api.gasprice.web;
+package aeee.api.gasprice.exception;
 
-import aeee.api.gasprice.exception.DeserializationException;
-import aeee.api.gasprice.exception.InfuraErrorException;
-import aeee.api.gasprice.web.vo.dto.ResponseDTO;
-import aeee.api.gasprice.web.vo.dto.ResponseType;
+import aeee.api.gasprice.dto.ResponseDTO;
+import aeee.api.gasprice.dto.ResponseType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
