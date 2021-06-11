@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/gasprice")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class GasPriceController extends FilterController {
+public class GasPriceController {
 
     private final GasPriceService gasPriceService;
 
