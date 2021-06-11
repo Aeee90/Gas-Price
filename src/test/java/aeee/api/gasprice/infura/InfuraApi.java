@@ -1,8 +1,7 @@
 package aeee.api.gasprice.infura;
 
-import aeee.api.gasprice.SpeedTime;
 import aeee.api.gasprice.api.InfuraAPI;
-import aeee.api.gasprice.vo.GasPriceEntity;
+import aeee.api.gasprice.vo.GasPrice;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
@@ -55,8 +54,8 @@ public class InfuraApi {
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<GasPriceEntity> responseEntity = restTemplate.postForEntity(URL, request, GasPriceEntity.class);
-        GasPriceEntity gasPriceVO = responseEntity.getBody();
+        ResponseEntity<GasPrice> responseEntity = restTemplate.postForEntity(URL, request, GasPrice.class);
+        GasPrice gasPriceVO = responseEntity.getBody();
 
         assert(gasPriceVO != null);
         assert(!gasPriceVO.isError());
@@ -67,7 +66,7 @@ public class InfuraApi {
 
     @Test
     public void getGasPriceServiceGasPriceVO(){
-        GasPriceEntity gasPriceLatest = infuraAPI.getEth_getBlockByNumber();
+        GasPrice gasPriceLatest = infuraAPI.getEth_getBlockByNumber();
         assert(gasPriceLatest != null);
         log.info(gasPriceLatest.toString());
     }

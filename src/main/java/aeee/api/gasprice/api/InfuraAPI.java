@@ -1,9 +1,9 @@
 package aeee.api.gasprice.api;
 
-import aeee.api.gasprice.vo.GasPriceEntity;
+import aeee.api.gasprice.vo.GasPrice;
 
 public interface InfuraAPI {
 
-    GasPriceEntity getEth_getBlockByNumber();
+    GasPrice getEth_getBlockByNumber();
 
 }

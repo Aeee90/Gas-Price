@@ -2,9 +2,8 @@ package aeee.api.gasprice.api;
 
 import aeee.api.gasprice.api.configuration.HttpSender;
 import aeee.api.gasprice.define.InfuraMethod;
-import aeee.api.gasprice.exception.ServerException;
-import aeee.api.gasprice.vo.GasPriceEntity;
-import aeee.api.gasprice.vo.InfuraValidErrorEntity;
+import aeee.api.gasprice.exception.InfuraErrorException;
+import aeee.api.gasprice.vo.GasPrice;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -44,18 +43,11 @@ class InfuraAPIDefault implements InfuraAPI{
     }
 
     @Override
-    public GasPriceEntity getEth_getBlockByNumber(){
+    public GasPrice getEth_getBlockByNumber(){
         JSONArray params = new JSONArray();
         params.put("latest");
         params.put(true);
 
-        GasPriceEntity result = request(GasPriceEntity.class, InfuraMethod.ETH_GET_BLOCK_BY_NUMBER, params);
-
-        return validError(result);
-    }
-
-    private <T extends InfuraValidErrorEntity> T validError(InfuraValidErrorEntity isError){
-        if(isError.isError()) throw new ServerException();
-        else return (T) isError;
+        return request(GasPrice.class, InfuraMethod.ETH_GET_BLOCK_BY_NUMBER, params);
     }
 }

@@ -3,15 +3,14 @@ package aeee.api.gasprice.vo;
 import aeee.api.gasprice.util.UnitConvertor;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
 @Data
-public class ResultEntity implements Serializable {
+public class Result {
 
     private BigDecimal number;
-    private ArrayList<TransactionEntity> transactions = new ArrayList<>();
+    private ArrayList<Transaction> transactions = new ArrayList<>();
 
     public void setNumber(String number){
         this.number = UnitConvertor.convertHexStrToDecimalBigDecimal(number);

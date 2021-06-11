@@ -6,9 +6,9 @@ import aeee.api.gasprice.dto.BlockInfoDTO;
 import aeee.api.gasprice.dto.TransactionCountDTO;
 import aeee.api.gasprice.dto.comparator.TransactionCountDTOComparator;
 import aeee.api.gasprice.util.UnitConvertor;
-import aeee.api.gasprice.vo.GasPriceEntity;
-import aeee.api.gasprice.vo.ResultEntity;
-import aeee.api.gasprice.vo.TransactionEntity;
+import aeee.api.gasprice.vo.GasPrice;
+import aeee.api.gasprice.vo.Result;
+import aeee.api.gasprice.vo.Transaction;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,9 +28,9 @@ class GasPriceServiceDefault implements GasPriceService{
     private final InfuraAPI infuraAPI;
 
     public BlockInfoDTO manufactureGasPrice(){
-        GasPriceEntity gasPriceVO = infuraAPI.getEth_getBlockByNumber();
-        ResultEntity result = gasPriceVO.getResult();
-        List<TransactionEntity> transactionEntities = gasPriceVO.getResult().getTransactions();
+        GasPrice gasPriceVO = infuraAPI.getEth_getBlockByNumber();
+        Result result = gasPriceVO.getResult();
+        List<Transaction> transactionEntities = gasPriceVO.getResult().getTransactions();
 
         BlockInfoDTO blockInfoDTO = new BlockInfoDTO();
         blockInfoDTO.setAverage(BigDecimal.ZERO);
@@ -48,7 +48,7 @@ class GasPriceServiceDefault implements GasPriceService{
             counter.put(UnitConvertor.convertUnitWithRoundHalf(first, Unit.WEI, Unit.GIGA, 1), 1L);
 
             for(int i=1; i < size; i++){
-                TransactionEntity tr = transactionEntities.get(i);
+                Transaction tr = transactionEntities.get(i);
                 BigDecimal gp = tr.getGasPrice();
                 sum = sum.add(gp);
                 if(gp.compareTo(max) > 0) max = gp;

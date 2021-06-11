@@ -3,11 +3,10 @@ package aeee.api.gasprice.vo;
 import aeee.api.gasprice.util.UnitConvertor;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Data
-public class TransactionEntity implements Serializable {
+public class Transaction {
 
     private BigDecimal gasPrice;
 

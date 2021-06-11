@@ -1,6 +1,6 @@
 package aeee.api.gasprice.api.configuration;
 
-import aeee.api.gasprice.exception.ServerException;
+import aeee.api.gasprice.exception.InfuraErrorException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -36,22 +36,6 @@ public class InfuraAPIConfiguration extends HttpSender {
 
     @Override
     public void handleError(ClientHttpResponse response) {
-        HttpStatus status = null;
-        try{
-            status = response.getStatusCode();
-        }catch (IOException e){
-            log.error("getStatusCode of ClientHttpResponse is Error: {}", e.getMessage());
-            throw new ServerException();
-        }
-
-        switch (status){
-            case NOT_FOUND: log.error("{} Is Not Found.", url); throw new ServerException();
-            case REQUEST_TIMEOUT:
-                String message = "네트워크 상태가 좋지 않습니다. 잠시후에 시도하세요.";
-                log.error(message);
-                throw new ServerException(message);
-            default: log.error("{}'s Status Is Not Found.", url); throw new ServerException();
-        }
-
+        throw new InfuraErrorException(response);
     }
 }
