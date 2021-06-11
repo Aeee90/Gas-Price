@@ -58,7 +58,6 @@ public class InfuraApi {
         GasPrice gasPriceVO = responseEntity.getBody();
 
         assert(gasPriceVO != null);
-        assert(!gasPriceVO.isError());
     }
 
     @Autowired
