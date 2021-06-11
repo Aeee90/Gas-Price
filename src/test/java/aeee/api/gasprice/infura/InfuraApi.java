@@ -74,14 +74,14 @@ public class InfuraApi {
 
     @Test
     public void measureSpeed(){
-        long run = 100;
-        long sum = 0;
-        for(int i =0; i<run; i++){
-            sum  += SpeedTime.measure("Api", o->{
-                infuraAPI.getEth_getBlockByNumber();
-                return null;
-            });
-        }
-        log.info("Avg: {}", sum/run);
+//        long run = 100;
+//        long sum = 0;
+//        for(int i =0; i<run; i++){
+//            sum  += SpeedTime.measure("Api", o->{
+//                infuraAPI.getEth_getBlockByNumber();
+//                return null;
+//            });
+//        }
+//        log.info("Avg: {}", sum/run);
     }
 }

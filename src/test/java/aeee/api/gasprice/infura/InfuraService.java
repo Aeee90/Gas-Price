@@ -33,14 +33,14 @@ public class InfuraService {
 
     @Test
     public void measureSpeed(){
-        long run = 100;
-        long sum = 0;
-        for(int i =0; i<run; i++){
-            sum  += SpeedTime.measure("Api", o->{
-                gasPriceService.manufactureGasPrice();
-                return null;
-            });
-        }
-        log.info("Avg: {}", sum/run);
+//        long run = 100;
+//        long sum = 0;
+//        for(int i =0; i<run; i++){
+//            sum  += SpeedTime.measure("Api", o->{
+//                gasPriceService.manufactureGasPrice();
+//                return null;
+//            });
+//        }
+//        log.info("Avg: {}", sum/run);
     }
 }
