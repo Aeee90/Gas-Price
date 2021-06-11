@@ -20,7 +20,7 @@ public class GasPriceController extends FilterController {
         this.gasPriceService = gasPriceService;
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseDTO<BlockInfoDTO> getBlockInfo(){
         return ResponseDTO.get(ResponseType.Success, "", gasPriceService.manufactureGasPrice());
     }

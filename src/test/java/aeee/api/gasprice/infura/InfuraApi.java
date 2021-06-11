@@ -2,7 +2,7 @@ package aeee.api.gasprice.infura;
 
 import aeee.api.gasprice.SpeedTime;
 import aeee.api.gasprice.api.InfuraAPI;
-import aeee.api.gasprice.vo.entity.GasPriceEntity;
+import aeee.api.gasprice.vo.GasPriceEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-
 
 @Slf4j
 @RunWith(SpringRunner.class)
